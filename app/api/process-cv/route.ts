@@ -7,6 +7,8 @@ export async function POST(request: NextRequest) {
   const cvFile = formData.get("cvFile");
   const jobDescription = String(formData.get("jobDescription") || "");
   const systemInstructions = process.env.SYSTEM_INSTRUCTIONS ?? "";
+  const aiModel = process.env.AI_MODEL ?? "gemini-2.5-flash";
+
 
   const file = cvFile as Blob | null;
   if (!file || typeof file.arrayBuffer !== "function") {
@@ -37,7 +39,7 @@ export async function POST(request: NextRequest) {
         },
       ],
     };
-    const model = "gemini-2.5-flash";
+    const model = aiModel;
     const contents = [
       { text: `${jobDescription}` },
       {
